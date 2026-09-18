@@ -1,17 +1,6 @@
-# dictionary
-thisdict = {
-    "brand" : "ford",
-    "model" : "mustang",
-    "year" : 1964
-}
-# cara memamnggil nilai
-#x = thisdict.keys()
-#x = thisdict.values()
+hobi_user_A = {"Baca","Coding","Renang"}
+hobi_user_B = {"Futsal","Coding","Catur","Melukis","Mmebaca"}
 
-thisdict["color"] = "white"
-# menampilkan data per key
-# print(thisdict["brand"])
-# print(x)
+hobytidaksama = hobi_user_A ^ hobi_user_B
 
-for x,y in thisdict.items():
-    print(x,y)
+print(hobytidaksama)
