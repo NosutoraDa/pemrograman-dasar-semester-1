@@ -85,7 +85,7 @@ def input_menu():
                 print(f"{key}. {value['judul']} | {value['penulis']} | {value['tahun']} | {value['stok']}")
             input("Tekan Enter untuk kembali ke menu...")
             
-if _name_ == "_main_":
+if __name__ == "__main__":
     global jmlbuku, dtbuku
 
 
