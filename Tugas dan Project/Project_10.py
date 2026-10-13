@@ -4,54 +4,77 @@ from tkinter import messagebox
 # fitur menambahkan tugas
 def tambah_tugas():
     try:
-        tugas = entry_tmbhtugas.get()
+        tugas = entry_tmbhtugas.get().strip()
 
         if tugas == "":
             messagebox.showwarning("Peringatan", "Tugas tidak boleh kosong!")
             return
         
-        listtugas.listbox.insert(tk.END, tugas)
-        listtugas_entry.delete(0, tk.END)
+        listtugas.insert(tk.END, tugas)
+        entry_tmbhtugas.delete(0, tk.END)
 
     except ValueError:
             messagebox.showerror("Input error", "Masukkan input yg benar")
 
+#menambahkan fungsi hapus tugas
 def hapus_tugas():
-    # 1. cari tahu item mana yang sedang dipilih (hint: cari "curselection")
-    # 2. bagaimana kalau tidak ada yang dipilih? pikirkan apa yang terjadi
-    # 3. hapus item itu dari listbox
-    pass
+    piltgs = listtugas.curselection()
 
+    if not piltgs:
+         messagebox.showwarning("Warning Tuan", "Pilih mas")
+         return
+
+    index = piltgs[0]
+    listtugas.delete(index)
+
+#menambahkan fungsi hapus total
 def bersihkan_semua():
-    # kosongkan seluruh isi listbox (hint: delete dari index 0 sampai tk.END)
-    pass
+    if listtugas.size() == 0:
+        messagebox.showwarning("Peringatan", "Daftar tugas sudah kosong!")
+        return
 
+    jawab = messagebox.askyesno("Konfirmasi", "Yakin ingin menghapus semua tugas?")
+    if jawab:
+        listtugas.delete(0, tk.END)
 
-# ---------- JENDELA UTAMA ----------
+#jendela utama
 root = tk.Tk()
 root.title("Aplikasi Produktivitas")
 root.geometry("500x350")
 root.eval('tk::PlaceWindow . center')
 
-# ---------- WIDGET ----------
-# Area input:
-#   - Label judul
+#judul
 label_judul = tk.Label(root, text="Aplikasi Produktivitas", font=("Times New Roman", 12, "bold"))
 label_judul.pack(pady=10)
-#   - Entry
+
+#Tambah tugas
 label_tambahtgs = tk.Label(root, text="Masukkan Tugas: ")
 label_tambahtgs.pack(pady=5)
 
-entry_tmbhtugas = tk.Entry(root, width=30)
-entry_tmbhtugas.pack(ipady=5)
-#   - Button "Tambah Tugas"  (command=...)
+entry_tmbhtugas = tk.Entry(root, width=50)
+entry_tmbhtugas.pack()
 
-# Area tampilan:
-#   - Listbox (atur height & width supaya cukup besar)
-#   - opsional: Scrollbar
+tombol_tambah = tk.Button(root, text="Tambah Tugas", command= tambah_tugas, bg="lightgreen")
+tombol_tambah.pack(pady=5)
 
-# Area tombol aksi (pertimbangkan pakai Frame biar rapi):
-#   - Button "Hapus Tugas"
-#   - Button "Bersihkan Semua"
+#Listbox dan scrollbar
+frame_list = tk.Frame(root)
+frame_list.pack(pady=5)
+
+scrollbar = tk.Scrollbar(frame_list)
+scrollbar.pack(side="right", fill="y")
+
+listtugas = tk.Listbox(frame_list, width=50, height=10, yscrollcommand=scrollbar.set)
+listtugas.pack(pady=5)
+
+#Tombol tombol hapus
+frame_hapus = tk.Frame(root)
+frame_hapus.pack(pady=5)
+
+tombol_hapus = tk.Button(frame_hapus, text="Hapus beberapa", command=hapus_tugas, bg="pink")
+tombol_hapus.grid(row=0, column=0, padx=5)
+
+tombol_hapusttl = tk.Button(frame_hapus, text="Hapus total", command=bersihkan_semua, bg="red")
+tombol_hapusttl.grid(row=0, column=1, padx=5)
 
 root.mainloop()
