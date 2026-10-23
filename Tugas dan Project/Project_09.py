@@ -14,7 +14,7 @@ def minuman_pilih():
             total = 15000
         elif minuman == "Americano":
             total = 20000
-        elif minuman == "Cappucino":
+        elif minuman == "Cappuccino":
             total = 25000
         else:
             messagebox.showwarning("Pilih minuman", "Silakan pilih jenis minuman terlebih dahulu.")
