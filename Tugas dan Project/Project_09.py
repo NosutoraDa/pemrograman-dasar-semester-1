@@ -11,11 +11,11 @@ def minuman_pilih():
 
         # harga per 100 ml untuk tiap minuman
         if minuman == "Espresso":
-            total = 6000
+            total = 15000
         elif minuman == "Americano":
-            total = 3000
+            total = 20000
         elif minuman == "Cappucino":
-            total = 5000
+            total = 25000
         else:
             messagebox.showwarning("Pilih minuman", "Silakan pilih jenis minuman terlebih dahulu.")
             return
