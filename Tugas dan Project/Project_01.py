@@ -74,7 +74,7 @@ while True:
     elif menu == 5:
         nmax = 0
         nmmax = ""
-        nmin = 100 # harus nilai tertinggi jika tidak maka 0 akan menjadi terendah
+        nmin = 99 # harus nilai tertinggi jika tidak maka 0 akan menjadi terendah
         nmmin = ""
 
         for i in range(jmlMHS):
@@ -101,19 +101,17 @@ while True:
 
         if menu2 == 1:
             print("=== ASCEND ===")
-            namnil = list(zip(nama, nilai))
-            namnil.sort()
-            for i in range(len(nama)):
-                print(i+1,"Nama: ",nama[i])
-                print("    Nilai: ",nilai[i])
+            namnil = sorted(zip(nama, nilai), key=lambda data: data[1])
+            for i, (nm, nl) in enumerate(namnil, start=1):
+                print(i, "Nama: ", nm)
+                print("    Nilai: ", nl)
             print("=== ASCEND ===")
-        if menu2 == 2:
+        elif menu2 == 2:
             print("=== DESCEND ===")
-            namnil = list(zip(nama, nilai))
-            namnil.sort(reverse=True)
-            for i in range(len(nama)):
-                print(i+1,"Nama: ",namnil[i][0])
-                print("    Nilai: ",namnil[i][1])
+            namnil = sorted(zip(nama, nilai), key=lambda data: data[1], reverse=True)
+            for i, (nm, nl) in enumerate(namnil, start=1):
+                print(i, "Nama: ", nm)
+                print("    Nilai: ", nl)
             print("=== DESCEND ===")
         else:
             print("Menu Tidak di temukan")

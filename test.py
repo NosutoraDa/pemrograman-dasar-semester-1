@@ -1,84 +1,70 @@
 import tkinter as tk
 from tkinter import messagebox
 
-# jendela utama (HARUS dibuat paling awal)
-root = tk.Tk()
-root.title("Kafe Kopi")
-root.geometry("350x350")  # mengatur ukuran jendela
-root.eval('tk::PlaceWindow . center')  # memposisikan jendela di tengah layar
+def tambah_tugas():
+    try:
+        tugas = entry_tmbhtugas.get().strip()
+        if tugas == "":
+            messagebox.showwarning("Peringatan", "Tugas tidak boleh kosong!")
+            return
+        listtugas.insert(tk.END, tugas)
+        entry_tmbhtugas.delete(0, tk.END)
+    except ValueError:
+        messagebox.showerror("Input error", "Masukkan input yg benar")
 
-# variabel tkinter (setelah root dibuat)
-var_minuman = tk.StringVar()
-var_xshot = tk.IntVar()
-var_oatmilk = tk.IntVar()
-var_vanilla = tk.IntVar()
-
-def pil_minuman():
-    return var_minuman.get()
-
-def minuman_pilih():
-    minuman = pil_minuman()
-
-    # harga dasar minuman
-    if minuman == "Espresso":
-        total = 15000
-    elif minuman == "Americano":
-        total = 20000
-    elif minuman == "Cappuccino":
-        total = 25000
-    else:
-        messagebox.showerror("Input error", "Silakan pilih jenis kopi terlebih dahulu.")
+def hapus_tugas():
+    piltgs = listtugas.curselection()
+    if not piltgs:
+        messagebox.showwarning("Warning Tuan", "Pilih mas")
         return
+    index = piltgs[0]
+    listtugas.delete(index)
 
-    # tambahan topping (bisa lebih dari satu), .get() mengambil 1 atau 0
-    topping = ""
-    if var_xshot.get() == 1:
-        total += 5000
-        topping += "- Extra Shot (Rp5.000)\n"
-    if var_oatmilk.get() == 1:
-        total += 10000
-        topping += "- Susu Oat (Rp10.000)\n"
-    if var_vanilla.get() == 1:
-        total += 4000
-        topping += "- Sirup Vanilla (Rp4.000)\n"
+def bersihkan_semua():
+    if listtugas.size() == 0:
+        messagebox.showwarning("Peringatan", "Daftar tugas sudah kosong!")
+        return
+    jawab = messagebox.askyesno("Konfirmasi", "Yakin ingin menghapus semua tugas?")
+    if jawab:
+        listtugas.delete(0, tk.END)
 
-    if topping == "":
-        topping = "- Tanpa topping\n"
+root = tk.Tk()
+root.title("Aplikasi Produktivitas")
+root.geometry("500x350")
+root.eval('tk::PlaceWindow . center')
 
-    # menampilkan struk pembayaran
-    messagebox.showinfo(
-        "Struk Pembayaran",
-        f"Jenis Kopi: {minuman}\n\n"
-        f"Topping:\n{topping}\n"
-        f"Total Harga: Rp{total:,.0f}".replace(",", ".")
-    )
+label_judul = tk.Label(root, text="Aplikasi Produktivitas", font=("Times New Roman", 12, "bold"))
+label_judul.pack(pady=10)
 
-# label judul
-label_judul = tk.Label(root, text="Kafe Kopi", font=("Arial", 12, "bold"))
-label_judul.pack(pady=10)  # jarak antara judul dan label
+label_tambahtgs = tk.Label(root, text="Masukkan Tugas: ")
+label_tambahtgs.pack(pady=5)
+entry_tmbhtugas = tk.Entry(root, width=50)
+entry_tmbhtugas.pack()
 
-# pilihan minum
-label_minum = tk.Label(root, text="Silahkan pilih kopinya")
-label_minum.pack(anchor="w")
-minum_pil1 = tk.Radiobutton(root, text="Espresso - Rp15.000", variable=var_minuman, value="Espresso")
-minum_pil1.pack(anchor="w")
-minum_pil2 = tk.Radiobutton(root, text="Americano - Rp20.000", variable=var_minuman, value="Americano")
-minum_pil2.pack(anchor="w")
-minum_pil3 = tk.Radiobutton(root, text="Cappuccino - Rp25.000", variable=var_minuman, value="Cappuccino")
-minum_pil3.pack(anchor="w")
+# ERROR: The button is packed BEFORE the function 'tambah_tugas' is defined, 
+# or here the variable name has a typo, or pack/grid parameters are messed up.
+# Try debugging this broken version:
+tombol_tambah = tk.Button(root, text="Tambah Tugas", command=tambah_tugas, bg="lightgreen")
+tombol_tambah.pack(pady=5)
 
-# pilihan topping
-label_topping = tk.Label(root, text="Pilih topping")
-label_topping.pack(anchor="w")
-topping_pil1 = tk.Checkbutton(root, text="Extra Shot (+5.000)", variable=var_xshot)
-topping_pil1.pack(anchor="w")
-topping_pil2 = tk.Checkbutton(root, text="Susu Oat (+10.000)", variable=var_oatmilk)
-topping_pil2.pack(anchor="w")
-topping_pil3 = tk.Checkbutton(root, text="Sirup Vanilla (+4.000)", variable=var_vanilla)
-topping_pil3.pack(anchor="w")
+frame_list = tk.Frame(root)
+frame_list.pack(pady=5)
 
-# tombol pesan
-tombol_pesan = tk.Button(root, text="Pesan Sekarang", command=minuman_pilih)
-tombol_pesan.pack(pady=10)
+scrollbar = tk.Scrollbar(frame_list)
+scrollbar.pack(side="right", fill="y")
+
+listtugas = tk.Listbox(frame_list, width=50, height=10, yscrollcommand=scrollbar.set)
+listtugas.pack(pady=5)
+
+frame_hapus = tk.Frame(root)
+frame_hapus.pack(pady=5)
+
+tombol_hapus = tk.Button(frame_hapus, text="Hapus beberapa", command=hapus_tugas, bg="pink")
+# ERROR: Using grid() inside a frame where pack() or mixed geometry managers clash, 
+# or passing invalid row/column parameters.
+tombol_hapus.grid(row=0, column=0, padx=5)
+
+tombol_hapusttl = tk.Button(frame_hapus, text="Hapus total", command=bersihkan_semua, bg="red")
+tombol_hapusttl.grid(row=0, column=1, padx=5)
 
 root.mainloop()
