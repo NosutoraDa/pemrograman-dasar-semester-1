@@ -1,6 +1,5 @@
 import tkinter as tk
 from tkinter import messagebox
-from tkinter import ttk
 
 def pil_minuman():
     return var_minuman.get()
@@ -52,7 +51,7 @@ def minuman_pilih():
 # jendela utama
 root = tk.Tk()
 
-var_minuman = tk.StringVar(root, value="")
+var_minuman = tk.StringVar(value="__none__")
 var_xshot = tk.BooleanVar()
 var_oatmilk = tk.BooleanVar()
 var_vanilla = tk.BooleanVar()
@@ -72,11 +71,11 @@ label_minum.pack()
 frame_minum = tk.Frame(root)
 frame_minum.pack(pady=5)
 
-minum_pil1 = ttk.Radiobutton(frame_minum, text="Espresso - Rp15.000", variable=var_minuman, value="Espresso")
+minum_pil1 = tk.Radiobutton(frame_minum, text="Espresso - Rp15.000", variable=var_minuman, value="Espresso")
 minum_pil1.grid(row=0, column=0, padx=5)
-minum_pil2 = ttk.Radiobutton(frame_minum, text="Americano - Rp20.000", variable=var_minuman, value="Americano")
+minum_pil2 = tk.Radiobutton(frame_minum, text="Americano - Rp20.000", variable=var_minuman, value="Americano")
 minum_pil2.grid(row=0, column=1, padx=5)
-minum_pil3 = ttk.Radiobutton(frame_minum, text="Cappuccino - Rp25.000", variable=var_minuman, value="Cappuccino")
+minum_pil3 = tk.Radiobutton(frame_minum, text="Cappuccino - Rp25.000", variable=var_minuman, value="Cappuccino")
 minum_pil3.grid(row=0, column=2, padx=5)
 
 # pilihan topping
